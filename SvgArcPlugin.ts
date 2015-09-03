@@ -13,7 +13,7 @@ function isNumeric(value:any):boolean {
 }
 
 class SvgArcPlugin {
-    propName:string = "typed";
+    propName:string = "svgarc";
     API:number = 2;
     version:string = "1.0.2";
     target:ISvgArc;

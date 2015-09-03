@@ -5,6 +5,7 @@ class SvgArc {
     private arc:Snap.Element;
     private lowerMask:Snap.Element;
     private upperMask:Snap.Element;
+    private maskGroup:any;
 
     constructor(private container:SVGElement,
                 private x:number,
@@ -14,11 +15,13 @@ class SvgArc {
                 private offset:number,
                 private thickness:number) {
         this.snap = Snap(container);
-        this.arc = this.path(describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees));
-        this.lowerMask = this.path(describeArc(this.x, this.y, this.offset, this.startAngle, this.startAngle + this.arcDegrees));
-        this.arc = this.path(describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees));
+        this.arc = this.snap.path(this.describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees));
+        this.lowerMask = this.snap.path(this.describeArc(this.x, this.y, this.offset, this.startAngle, this.startAngle + this.arcDegrees));
+        this.upperMask = this.snap.path(this.describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees));
         this.lowerMask.attr({fill: "#000"});
         this.upperMask.attr({fill: "#fff"});
+        this.maskGroup = this.snap.group(this.lowerMask, this.upperMask);
+        this.arc.attr({mask: this.maskGroup});
     }
 
     polarToCartesian(centerX, centerY, radius, angleInDegrees) {
@@ -32,8 +35,8 @@ class SvgArc {
 
     describeArc(x, y, radius, startAngle, endAngle) {
 
-        var start = polarToCartesian(x, y, radius, endAngle);
-        var end = polarToCartesian(x, y, radius, startAngle);
+        var start = this.polarToCartesian(x, y, radius, endAngle);
+        var end = this.polarToCartesian(x, y, radius, startAngle);
 
         var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
 
