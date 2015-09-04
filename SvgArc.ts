@@ -1,5 +1,15 @@
 ///<reference path="snapsvg.d.ts"/>
 
+interface ISvgArcOptions
+{
+     x:number;
+     y:number;
+     startAngle:number;
+     arcDegrees:number;
+     offset:number;
+     thickness:number;
+}
+
 class SvgArc {
     private snap:Snap;
     private arc:Snap.Element;
@@ -7,20 +17,15 @@ class SvgArc {
     private upperMask:Snap.Element;
     private maskGroup:any;
 
-    constructor(private container:SVGElement,
-                private x:number,
-                private y:number,
-                private startAngle:number,
-                private arcDegrees:number,
-                private offset:number,
-                private thickness:number) {
-        this.snap = Snap(container);
-        this.arc = this.snap.path(this.describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees));
-        this.lowerMask = this.snap.path(this.describeArc(this.x, this.y, this.offset, this.startAngle, this.startAngle + this.arcDegrees));
-        this.upperMask = this.snap.path(this.describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees));
+    constructor(private container:SVGElement, public options:ISvgArcOptions) {
+        this.snap = Snap(this.container);
+        this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
+        this.lowerMask = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
+        this.upperMask = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
+        this.arc.attr({fill: '#bada55'});
         this.lowerMask.attr({fill: "#000"});
         this.upperMask.attr({fill: "#fff"});
-        this.maskGroup = this.snap.group(this.lowerMask, this.upperMask);
+        this.maskGroup = this.snap.group(this.upperMask, this.lowerMask);
         this.arc.attr({mask: this.maskGroup});
     }
 
@@ -50,4 +55,13 @@ class SvgArc {
         return d;
     }
 
+    updatePaths():void {
+        this.arc.attr({d:this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees)});
+        this.lowerMask.attr({d:this.describeArc(this.options.x, this.options.y, this.options.offset, this.options.startAngle, this.options.startAngle + this.options.arcDegrees)});
+        this.upperMask.attr({d:this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees)});
+    }
+
+    cloneOptions(): ISvgArcOptions {
+        return JSON.parse(JSON.stringify(this.options));
+    }
 }

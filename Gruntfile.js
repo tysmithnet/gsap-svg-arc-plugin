@@ -26,11 +26,17 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+        comments: {
+            dist: {
+                src: ['gsap-svg-arc-plugin.js']
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-ts');
-    grunt.registerTask('default', ['ts:dist', 'string-replace:dist']);
+    grunt.loadNpmTasks('grunt-stripcomments');
+    grunt.registerTask('default', ['ts:dist', 'string-replace:dist', 'comments:dist']);
 
 };
