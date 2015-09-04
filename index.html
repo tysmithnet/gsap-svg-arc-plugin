@@ -19,7 +19,7 @@
                 thickness: 100
             };
             var svgarc = new SvgArc(document.getElementById('mysvg'), options);
-            TweenMax.from(svgarc, 1, {svgarc: {thickness: 200, arcDegrees: 225, startAngle: 45, offset: 150}}, null);
+            TweenMax.to(svgarc, 1, {svgarc: {thickness: 200, arcDegrees: 225, startAngle: 45, offset: 150}}, null);
         });
     </script>
     <style>
