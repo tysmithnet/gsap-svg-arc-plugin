@@ -13,13 +13,13 @@
             var options = {
                 x: 300,
                 y: 300,
-                startAngle: 90,
+                startAngle: 0,
                 arcDegrees: 90,
                 offset: 100,
                 thickness: 100
             };
             var svgarc = new SvgArc(document.getElementById('mysvg'), options);
-            TweenMax.to(svgarc, 1, {svgarc: {thickness: 200, arcDegrees: 225, startAngle: 45, offset: 150}}, null);
+            TweenMax.to(svgarc, 1, {svgarc: {arcDegrees: 225}}, null);
         });
     </script>
     <style>

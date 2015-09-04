@@ -8,7 +8,7 @@ function isNumeric(value:any):boolean {
 class SvgArcPlugin {
     propName:string = "svgarc";
     API:number = 2;
-    version:string = "1.0.2";
+    version:string = "1.0.0";
     target:ISvgArc;
     toValues:ISvgArcOptions;
     fromValues:ISvgArcOptions;

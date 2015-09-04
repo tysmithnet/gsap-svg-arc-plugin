@@ -9,7 +9,7 @@ var SvgArcPlugin = (function () {
         var _this = this;
         this.propName = "svgarc";
         this.API = 2;
-        this.version = "1.0.2";
+        this.version = "1.0.0";
         this.init = function (target, value, tween) {
             if (!_this.validate(target))
                 return false;
