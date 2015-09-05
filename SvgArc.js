@@ -7,7 +7,7 @@ var SvgArc = (function () {
         this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
         this.lowerMask = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
         this.upperMask = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
-        this.arc.attr({ fill: '#bada55' });
+        this.arc.attr({ fill: 'none', stroke: 'none' });
         this.lowerMask.attr({ fill: "#000" });
         this.upperMask.attr({ fill: "#fff" });
         this.maskGroup = this.snap.group(this.upperMask, this.lowerMask);
