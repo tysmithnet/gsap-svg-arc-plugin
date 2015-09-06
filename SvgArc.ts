@@ -16,7 +16,7 @@ class SvgArc {
 
     constructor(private container:SVGElement, public options:ISvgArcOptions) {
         this.snap = Snap(this.container);
-        this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
+        this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness - (.5 * this.options.thickness), this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
         this.arc.attr({fill: 'none', stroke: 'none', strokeWidth: options.thickness});
     }
 

@@ -45,8 +45,8 @@ class SvgArcPlugin {
         this.target.options.y = isNumeric(this.toValues.y) ? this.scaleValue(this.fromValues.y, this.toValues.y, ratio) : this.fromValues.y;
         this.target.options.startAngle = isNumeric(this.toValues.startAngle) ? this.scaleValue(this.fromValues.startAngle, this.toValues.startAngle, ratio) : this.fromValues.startAngle;
         this.target.options.arcDegrees = isNumeric(this.toValues.arcDegrees) ? this.scaleValue(this.fromValues.arcDegrees, this.toValues.arcDegrees, ratio) : this.fromValues.arcDegrees;
-        this.target.options.offset = isNumeric(this.toValues.offset) ? this.scaleValue(this.fromValues.offset, this.toValues.offset, ratio) : this.fromValues.offset;
         this.target.options.thickness = isNumeric(this.toValues.thickness) ? this.scaleValue(this.fromValues.thickness, this.toValues.thickness, ratio) : this.fromValues.thickness;
+        this.target.options.offset = isNumeric(this.toValues.offset) ? this.scaleValue(this.fromValues.offset, this.toValues.offset, ratio) - (this.target.options.thickness * .5) : this.fromValues.offset  - (this.target.options.thickness * .5);
         this.target.updatePaths();
     }
 

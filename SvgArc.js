@@ -4,7 +4,7 @@ var SvgArc = (function () {
         this.container = container;
         this.options = options;
         this.snap = Snap(this.container);
-        this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
+        this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness - (.5 * this.options.thickness), this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
         this.arc.attr({ fill: 'none', stroke: 'none', strokeWidth: options.thickness });
     }
     SvgArc.prototype.polarToCartesian = function (centerX, centerY, radius, angleInDegrees) {
