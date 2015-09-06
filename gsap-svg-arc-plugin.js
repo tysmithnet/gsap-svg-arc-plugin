@@ -38,8 +38,8 @@ var SvgArcPlugin = (function () {
             _this.target.options.y = isNumeric(_this.toValues.y) ? _this.scaleValue(_this.fromValues.y, _this.toValues.y, ratio) : _this.fromValues.y;
             _this.target.options.startAngle = isNumeric(_this.toValues.startAngle) ? _this.scaleValue(_this.fromValues.startAngle, _this.toValues.startAngle, ratio) : _this.fromValues.startAngle;
             _this.target.options.arcDegrees = isNumeric(_this.toValues.arcDegrees) ? _this.scaleValue(_this.fromValues.arcDegrees, _this.toValues.arcDegrees, ratio) : _this.fromValues.arcDegrees;
-            _this.target.options.offset = isNumeric(_this.toValues.offset) ? _this.scaleValue(_this.fromValues.offset, _this.toValues.offset, ratio) : _this.fromValues.offset;
             _this.target.options.thickness = isNumeric(_this.toValues.thickness) ? _this.scaleValue(_this.fromValues.thickness, _this.toValues.thickness, ratio) : _this.fromValues.thickness;
+            _this.target.options.offset = isNumeric(_this.toValues.offset) ? _this.scaleValue(_this.fromValues.offset, _this.toValues.offset, ratio) - (_this.target.options.thickness * .5) : _this.fromValues.offset - (_this.target.options.thickness * .5);
             _this.target.updatePaths();
         };
         this.scaleValue = function (start, end, ratio) {
