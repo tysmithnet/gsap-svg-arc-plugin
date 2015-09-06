@@ -5,13 +5,7 @@ var SvgArc = (function () {
         this.options = options;
         this.snap = Snap(this.container);
         this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
-        this.lowerMask = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
-        this.upperMask = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
-        this.arc.attr({ fill: 'none', stroke: 'none' });
-        this.lowerMask.attr({ fill: "#000" });
-        this.upperMask.attr({ fill: "#fff" });
-        this.maskGroup = this.snap.group(this.upperMask, this.lowerMask);
-        this.arc.attr({ mask: this.maskGroup });
+        this.arc.attr({ fill: 'none', stroke: 'none', strokeWidth: options.thickness });
     }
     SvgArc.prototype.polarToCartesian = function (centerX, centerY, radius, angleInDegrees) {
         var angleInRadians = (angleInDegrees) * Math.PI / 180.0;
@@ -31,9 +25,10 @@ var SvgArc = (function () {
         return d;
     };
     SvgArc.prototype.updatePaths = function () {
-        this.arc.attr({ d: this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees) });
-        this.lowerMask.attr({ d: this.describeArc(this.options.x, this.options.y, this.options.offset, this.options.startAngle, this.options.startAngle + this.options.arcDegrees) });
-        this.upperMask.attr({ d: this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees) });
+        this.arc.attr({
+            d: this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees),
+            strokeWidth: this.options.thickness
+        });
     };
     SvgArc.prototype.cloneOptions = function () {
         return JSON.parse(JSON.stringify(this.options));
