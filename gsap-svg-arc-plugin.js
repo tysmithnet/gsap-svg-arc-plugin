@@ -22,6 +22,9 @@ var SvgArcPlugin = (function () {
             if (typeof (value.arcDegrees) == 'string') {
                 value.arcDegrees = eval('target.options.arcDegrees' + value.arcDegrees);
             }
+            if (typeof (value.thickness) == 'string') {
+                value.thickness = eval('target.options.thickness' + value.thickness);
+            }
             _this.fromValues = target.cloneOptions();
             return true;
         };

@@ -20,7 +20,7 @@
             };
             var svgarc = new SvgArc(document.getElementById('mysvg'), options);
             svgarc.arc.attr({stroke: "#000"});
-            TweenMax.to(svgarc, 1, {svgarc: {arcDegrees: '*2'}}, null);
+            TweenMax.to(svgarc, 1, {svgarc: {arcDegrees: '*2', thickness: '*2'}}, null);
         });
     </script>
     <style>

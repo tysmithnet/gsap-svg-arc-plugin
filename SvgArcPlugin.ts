@@ -28,6 +28,10 @@ class SvgArcPlugin {
         {
             value.arcDegrees = eval('target.options.arcDegrees' + value.arcDegrees);
         }
+        if(typeof(value.thickness) == 'string')
+        {
+            value.thickness = eval('target.options.thickness' + value.thickness);
+        }
         this.fromValues = target.cloneOptions();
         return true;
     }
