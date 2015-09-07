@@ -19,18 +19,18 @@ class SvgArcPlugin {
 
         this.prepareTarget(target);
         this.target = target;
-        this.toValues = value;
-        if(typeof(value.startAngle) == 'string')
+        this.toValues = JSON.parse(JSON.stringify(value));
+        if(typeof(this.toValues.startAngle) == 'string')
         {
-            value.startAngle = eval('target.options.startAngle' + value.startAngle);
+            this.toValues.startAngle = eval('target.options.startAngle' + this.toValues.startAngle);
         }
-        if(typeof(value.arcDegrees) == 'string')
+        if(typeof(this.toValues.arcDegrees) == 'string')
         {
-            value.arcDegrees = eval('target.options.arcDegrees' + value.arcDegrees);
+            this.toValues.arcDegrees = eval('target.options.arcDegrees' + this.toValues.arcDegrees);
         }
-        if(typeof(value.thickness) == 'string')
+        if(typeof(this.toValues.thickness) == 'string')
         {
-            value.thickness = eval('target.options.thickness' + value.thickness);
+            this.toValues.thickness = eval('target.options.thickness' + this.toValues.thickness);
         }
         this.fromValues = target.cloneOptions();
         return true;

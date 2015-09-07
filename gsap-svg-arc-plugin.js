@@ -15,15 +15,15 @@ var SvgArcPlugin = (function () {
                 return false;
             _this.prepareTarget(target);
             _this.target = target;
-            _this.toValues = value;
-            if (typeof (value.startAngle) == 'string') {
-                value.startAngle = eval('target.options.startAngle' + value.startAngle);
+            _this.toValues = JSON.parse(JSON.stringify(value));
+            if (typeof (_this.toValues.startAngle) == 'string') {
+                _this.toValues.startAngle = eval('target.options.startAngle' + _this.toValues.startAngle);
             }
-            if (typeof (value.arcDegrees) == 'string') {
-                value.arcDegrees = eval('target.options.arcDegrees' + value.arcDegrees);
+            if (typeof (_this.toValues.arcDegrees) == 'string') {
+                _this.toValues.arcDegrees = eval('target.options.arcDegrees' + _this.toValues.arcDegrees);
             }
-            if (typeof (value.thickness) == 'string') {
-                value.thickness = eval('target.options.thickness' + value.thickness);
+            if (typeof (_this.toValues.thickness) == 'string') {
+                _this.toValues.thickness = eval('target.options.thickness' + _this.toValues.thickness);
             }
             _this.fromValues = target.cloneOptions();
             return true;
