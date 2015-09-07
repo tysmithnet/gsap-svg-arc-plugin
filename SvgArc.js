@@ -1,11 +1,16 @@
 ///<reference path="snapsvg.d.ts"/>
 var SvgArc = (function () {
-    function SvgArc(container, options) {
+    function SvgArc(container, x, y, startAngle, arcDegrees, thickness, offset) {
         this.container = container;
-        this.options = options;
+        this.x = x;
+        this.y = y;
+        this.startAngle = startAngle;
+        this.arcDegrees = arcDegrees;
+        this.thickness = thickness;
+        this.offset = offset;
         this.snap = Snap(this.container);
-        this.arc = this.snap.path(this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness - (.5 * this.options.thickness), this.options.startAngle, this.options.startAngle + this.options.arcDegrees));
-        this.arc.attr({ fill: 'none', stroke: 'none', strokeWidth: options.thickness });
+        this.arc = this.snap.path(this.describeArc(this.x, this.y, this.offset + this.thickness - (.5 * this.thickness), this.startAngle, this.startAngle + this.arcDegrees));
+        this.arc.attr({ fill: 'none', stroke: 'none', strokeWidth: thickness });
     }
     SvgArc.prototype.polarToCartesian = function (centerX, centerY, radius, angleInDegrees) {
         var angleInRadians = (angleInDegrees) * Math.PI / 180.0;
@@ -26,12 +31,19 @@ var SvgArc = (function () {
     };
     SvgArc.prototype.updatePaths = function () {
         this.arc.attr({
-            d: this.describeArc(this.options.x, this.options.y, this.options.offset + this.options.thickness, this.options.startAngle, this.options.startAngle + this.options.arcDegrees),
-            strokeWidth: this.options.thickness
+            d: this.describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees),
+            strokeWidth: this.thickness
         });
     };
     SvgArc.prototype.cloneOptions = function () {
-        return JSON.parse(JSON.stringify(this.options));
+        return {
+            x: this.x,
+            y: this.y,
+            startAngle: this.startAngle,
+            arcDegrees: this.arcDegrees,
+            thickness: this.thickness,
+            offset: this.offset
+        };
     };
     return SvgArc;
 })();

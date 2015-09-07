@@ -37,6 +37,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-stripcomments');
-    grunt.registerTask('default', ['ts:dist', 'string-replace:dist', 'comments:dist']);
+    grunt.registerTask('default', ['ts:dist']);
 
 };

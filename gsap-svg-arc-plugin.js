@@ -1,73 +1,43 @@
 var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(global) !== "undefined") ? global : this || window; //helps ensure compatibility with AMD/RequireJS and CommonJS/Node
 (_gsScope._gsQueue || (_gsScope._gsQueue = [])).push( function() {
+    //ignore the line above this and at the very end - those are for ensuring things load in the proper order
     "use strict";
-function isNumeric(value) {
-    return !isNaN(parseFloat(value)) && isFinite(value);
-}
-var SvgArcPlugin = (function () {
-    function SvgArcPlugin() {
-        var _this = this;
-        this.propName = "svgarc";
-        this.API = 2;
-        this.version = "1.0.0";
-        this.init = function (target, value, tween) {
-            if (!_this.validate(target))
-                return false;
-            _this.target = target;
-            _this.toValues = JSON.parse(JSON.stringify(value));
-            if (typeof (_this.toValues.startAngle) == 'string') {
-                _this.toValues.startAngle = eval('target.options.startAngle' + _this.toValues.startAngle);
-            }
-            if (typeof (_this.toValues.arcDegrees) == 'string') {
-                _this.toValues.arcDegrees = eval('target.options.arcDegrees' + _this.toValues.arcDegrees);
-            }
-            if (typeof (_this.toValues.thickness) == 'string') {
-                _this.toValues.thickness = eval('target.options.thickness' + _this.toValues.thickness);
-            }
-            _this.fromValues = target.cloneOptions();
-            return true;
-        };
-        this.validate = function (target) {
-            if (target.container == null || !(target.container instanceof SVGElement)) {
-                console.log("target.container must be set to an SVGElement");
-                return false;
-            }
-            return true;
-        };
-        this.set = function (ratio) {
-            _this.setX(ratio);
-            _this.setY(ratio);
-            _this.setStartAngle(ratio);
-            _this.setArcDegrees(ratio);
-            _this.setThickness(ratio);
-            _this.setOffset(ratio);
-            _this.target.updatePaths();
-        };
-        this.setX = function (ratio) {
-            _this.target.options.x = isNumeric(_this.toValues.x) ? _this.scaleValue(_this.fromValues.x, _this.toValues.x, ratio) : _this.fromValues.x;
-        };
-        this.setY = function (ratio) {
-            _this.target.options.y = isNumeric(_this.toValues.y) ? _this.scaleValue(_this.fromValues.y, _this.toValues.y, ratio) : _this.fromValues.y;
-        };
-        this.setStartAngle = function (ratio) {
-            _this.target.options.startAngle = isNumeric(_this.toValues.startAngle) ? _this.scaleValue(_this.fromValues.startAngle, _this.toValues.startAngle, ratio) : _this.fromValues.startAngle;
-        };
-        this.setArcDegrees = function (ratio) {
-            _this.target.options.arcDegrees = isNumeric(_this.toValues.arcDegrees) ? _this.scaleValue(_this.fromValues.arcDegrees, _this.toValues.arcDegrees, ratio) : _this.fromValues.arcDegrees;
-        };
-        this.setThickness = function (ratio) {
-            _this.target.options.thickness = isNumeric(_this.toValues.thickness) ? _this.scaleValue(_this.fromValues.thickness, _this.toValues.thickness, ratio) : _this.fromValues.thickness;
-        };
-        this.setOffset = function (ratio) {
-            _this.target.options.offset = isNumeric(_this.toValues.offset) ? _this.scaleValue(_this.fromValues.offset, _this.toValues.offset, ratio) - (_this.target.options.thickness * .5) : _this.fromValues.offset - (_this.target.options.thickness * .5);
-        };
-        this.scaleValue = function (start, end, ratio) {
-            return start + ((end - start) * ratio);
-        };
-    }
-    return SvgArcPlugin;
-})();
 
-    _gsScope._gsDefine.plugin(new SvgArcPlugin());
+    _gsScope._gsDefine.plugin({
+        propName: "svgarc", //the name of the property that will get intercepted and handled by this plugin (obviously change it to whatever you want, typically it is camelCase starting with lowercase).
+        priority: 0, //the priority in the rendering pipeline (0 by default). A priority of -1 would mean this plugin will run after all those with 0 or greater. A priority of 1 would get run before 0, etc. This only matters when a plugin relies on other plugins finishing their work before it runs (or visa-versa)
+        API: 2, //the API should stay 2 - it just gives us a way to know the method/property structure so that if in the future we change to a different TweenPlugin architecture, we can identify this plugin's structure.
+        version: "1.0.0", //your plugin's version number
+        overwriteProps: ['x', 'y', 'startAngle', 'arcDegrees', 'thickness', 'offset'], //an array of property names whose tweens should be overwritten by this plugin. For example, if you create a "scale" plugin that handles both "scaleX" and "scaleY", the overwriteProps would be ["scaleX","scaleY"] so that if there's a scaleX or scaleY tween in-progress when a new "scale" tween starts (using this plugin), it would overwrite the scaleX or scaleY tween.
+
+        /*
+         * The init function is called when the tween renders for the first time. This is where initial values should be recorded and any setup routines should run. It receives 3 parameters:
+         *   1) target [object] - the target of the tween. In cases where the tween's original target is an array (or jQuery object), this target will be the individual object inside that array (a new plugin instance is created for each target in the array). For example, TweenLite.to([obj1, obj2, obj3], 1, {x:100}) the target will be obj1 or obj2 or obj3 rather than the array containing them.
+         *   2) value [*] - whatever value is passed as the special property value. For example, TweenLite.to(element, 1, {yourCustomProperty:3}) the value would be 3. Or for TweenLite.to(element, 1, {yourCustomProperty:{subProp1:3, subProp2:"whatever"}});, value would be {subProp1:3, subProp2:"whatever"}.
+         *   3) tween [TweenLite] - the TweenLite (or TweenMax) instance that is managing this plugin instance. This can be useful if you need to check certain state-related properties on the tween (maybe in the set method) like its duration or time. Most of the time, however, you don't need to do anything with the tween. It is provided just in case you want to reference it.
+         *
+         * This function should return true unless you want to have TweenLite/Max skip the plugin altogether and instead treat the property/value like a normal tween (as if the plugin wasn't activated). This is rarely useful, so you should almost always return true.
+         */
+        init: function(target, values, tween) {
+            this.target = target; //we record the target so that we can refer to it in the set method when doing updates.
+
+            this.toValues = JSON.parse(JSON.stringify(values));
+            this.fromValues = target.cloneOptions();
+
+            this._addTween(target, 'x', this.fromValues.x, this.toValues.x, 'x', false);
+            this._addTween(target, 'y', this.fromValues.y, this.toValues.y, 'y', false);
+            this._addTween(target, 'startAngle', this.fromValues.startAngle, this.toValues.startAngle, 'startAngle', false);
+            this._addTween(target, 'arcDegrees', this.fromValues.arcDegrees, this.toValues.arcDegrees, 'arcDegrees', false);
+            this._addTween(target, 'thickness', this.fromValues.thickness, this.toValues.thickness, 'thickness', false);
+            this._addTween(target, 'offset', this.fromValues.offset, this.toValues.offset, 'offset', false);
+
+            return true;
+        },
+
+        set: function(ratio) {
+            this._super.setRatio.call(this, ratio);
+            this.target.updatePaths();
+        }
+    });
 
 }); if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); }
