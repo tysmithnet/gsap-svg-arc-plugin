@@ -13,7 +13,6 @@ var SvgArcPlugin = (function () {
         this.init = function (target, value, tween) {
             if (!_this.validate(target))
                 return false;
-            _this.prepareTarget(target);
             _this.target = target;
             _this.toValues = JSON.parse(JSON.stringify(value));
             if (typeof (_this.toValues.startAngle) == 'string') {
@@ -34,13 +33,6 @@ var SvgArcPlugin = (function () {
                 return false;
             }
             return true;
-        };
-        this.prepareTarget = function (target) {
-            target.options.x = target.options.x || 0;
-            target.options.y = target.options.y || 0;
-            target.options.startAngle = target.options.startAngle || 0;
-            target.options.arcDegrees = target.options.arcDegrees || 0;
-            target.options.thickness = target.options.thickness || 1;
         };
         this.set = function (ratio) {
             _this.setX(ratio);

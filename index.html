@@ -5,7 +5,7 @@
     <title></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TweenMax.min.js"></script>
+    <script src="TweenMax.js"></script>
     <script src="SvgArc.js"></script>
     <script src="gsap-svg-arc-plugin.js"></script>
     <script>
@@ -19,7 +19,7 @@
             var svgarc3 = new SvgArc(document.getElementById('mysvg'), {x: 300, y: 300, startAngle: 225, arcDegrees: 10, offset: 100, thickness: 50});
             svgarc3.arc.attr({stroke: "#000"});
 
-            TweenMax.to([svgarc, svgarc2, svgarc3], 1, {svgarc: {startAngle: "+90"}}, null);
+            TweenMax.to([svgarc2, svgarc, svgarc3], 1, {svgarc: {startAngle: "+90"}}, null);
         });
     </script>
     <style>
