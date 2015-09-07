@@ -36,6 +36,7 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
 
         set: function(ratio) {
             this._super.setRatio.call(this, ratio);
+            this.offset = this.fromValues.offset - (.5 * this.target.thickness);
             this.target.updatePaths();
         }
     });

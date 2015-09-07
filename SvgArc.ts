@@ -4,9 +4,9 @@ class SvgArc {
     private snap:Snap;
     private arc:Snap.Element;
 
-    constructor(private container:SVGElement, private x:number, private y: number, private startAngle:number, private arcDegrees, private thickness: number, private offset:number) {
+    constructor(private container:SVGElement, private x:number, private y: number, private startAngle:number, private arcDegrees, private offset: number, private thickness:number) {
         this.snap = Snap(this.container);
-        this.arc = this.snap.path(this.describeArc(this.x, this.y, this.offset + this.thickness - (.5 * this.thickness), this.startAngle, this.startAngle + this.arcDegrees));
+        this.arc = this.snap.path(this.describeArc(this.x, this.y, this.offset + (.5 * this.thickness), this.startAngle, this.startAngle + this.arcDegrees));
         this.arc.attr({fill: 'none', stroke: 'none', strokeWidth: thickness});
     }
 
@@ -19,12 +19,12 @@ class SvgArc {
         };
     }
 
-    describeArc(x, y, radius, startAngle, endAngle) {
+    describeArc() {
+        var radius = this.offset + (.5 * this.thickness);
+        var start = this.polarToCartesian(this.x, this.y, radius, this.startAngle + this.arcDegrees);
+        var end = this.polarToCartesian(this.x, this.y, radius, this.startAngle);
 
-        var start = this.polarToCartesian(x, y, radius, endAngle);
-        var end = this.polarToCartesian(x, y, radius, startAngle);
-
-        var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+        var arcSweep = this.arcDegrees <= 180 ? "0" : "1";
 
         var d = [
             "M", start.x, start.y,
@@ -41,7 +41,7 @@ class SvgArc {
         });
     }
 
-    cloneOptions(): ISvgArcOptions {
+    cloneOptions(): any {
         return {
             x: this.x,
             y: this.y,
