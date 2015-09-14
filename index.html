@@ -10,16 +10,16 @@
     <script src="gsap-svg-arc-plugin.js"></script>
     <script>
         $(function(){
-            var svgarc = new SvgArc(document.getElementById('mysvg'), 300, 300, 0, 10, 100, 50);
+            var svgarc = new SvgArc(document.getElementById('mysvg'), 300, 300, 0, 10, 100, 10);
             svgarc.arc.attr({stroke: "#000"});
+//
+//            var svgarc2 = new SvgArc(document.getElementById('mysvg'), 300, 300, 66, 10, 100, 75);
+//            svgarc2.arc.attr({stroke: "#000"});
+//
+//            var svgarc3 = new SvgArc(document.getElementById('mysvg'), 300, 300, 81, 10, 100, 100);
+//            svgarc3.arc.attr({stroke: "#000"});
 
-            var svgarc2 = new SvgArc(document.getElementById('mysvg'), 300, 300, 66, 10, 100, 75);
-            svgarc2.arc.attr({stroke: "#000"});
-
-            var svgarc3 = new SvgArc(document.getElementById('mysvg'), 300, 300, 81, 10, 100, 100);
-            svgarc3.arc.attr({stroke: "#000"});
-
-            TweenMax.to([svgarc2, svgarc, svgarc3], 1, {svgarc: {startAngle: '*2'}}, null);
+            TweenMax.to([svgarc], 1, {svgarc: { arcDegrees: '+45'}}, null);
         });
     </script>
     <style>

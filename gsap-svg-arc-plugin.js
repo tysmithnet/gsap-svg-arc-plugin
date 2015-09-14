@@ -6,6 +6,7 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
 
     function interpret(realVal, formula){
         var val = formula.match(/\d+\.?\d*/)[0];
+        val = parseFloat(val);
         switch(formula[0])
         {
             case '+':
@@ -24,14 +25,19 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
     function massageValues(target, values){
         if(typeof(values.x) == 'string')
             values.x = interpret(target.x, values.x);
+        
         if(typeof(values.y) == 'string')
             values.y = interpret(target.y, values.y);
+
         if(typeof(values.startAngle) == 'string')
             values.startAngle = interpret(target.startAngle, values.startAngle);
+
         if(typeof(values.arcDegrees) == 'string')
             values.arcDegrees = interpret(target.arcDegrees, values.arcDegrees);
+
         if(typeof(values.offset) == 'string')
             values.offset = interpret(target.offset, values.offset);
+
         if(typeof(values.thickness) == 'string')
             values.thickness = interpret(target.thickness, values.thickness);
     }
