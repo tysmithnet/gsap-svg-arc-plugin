@@ -63,6 +63,15 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
             this._addTween(target, 'thickness', this.fromValues.thickness, this.toValues.thickness, 'thickness', false);
             this._addTween(target, 'offset', this.fromValues.offset, this.toValues.offset, 'offset', false);
 
+            var props = ['x', 'y', 'startAngle', 'arcDegrees', 'thickness', 'offset'];
+
+            for(var prop in values)
+                if(props.indexOf(prop) == -1){
+                    var oldVal = target.arc.attr(prop);
+                    var newVal = values[prop];
+                    this._addTween(target.arc.node, prop, oldVal, newVal, prop, false);
+                }
+
             return true;
         },
 

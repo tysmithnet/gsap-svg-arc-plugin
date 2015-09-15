@@ -8,9 +8,11 @@ var SvgArc = (function () {
         this.arcDegrees = arcDegrees;
         this.offset = offset;
         this.thickness = thickness;
-        this.snap = Snap(this.container);
-        this.arc = this.snap.path(this.describeArc(this.x, this.y, this.offset + (.5 * this.thickness), this.startAngle, this.startAngle + this.arcDegrees));
-        this.arc.attr({ fill: 'none', stroke: 'none', strokeWidth: thickness });
+        this.element = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+        this.element.setAttribute("d", this.describeArc());
+        this.element.style.stroke = "#000";
+        this.element.style.strokeWidth = thickness;
+        this.container.appendChild(this.element);
     }
     SvgArc.prototype.polarToCartesian = function (centerX, centerY, radius, angleInDegrees) {
         var angleInRadians = (angleInDegrees) * Math.PI / 180.0;
@@ -32,7 +34,7 @@ var SvgArc = (function () {
     };
     SvgArc.prototype.updatePaths = function () {
         this.arc.attr({
-            d: this.describeArc(this.x, this.y, this.offset + this.thickness, this.startAngle, this.startAngle + this.arcDegrees),
+            d: this.describeArc(),
             strokeWidth: this.thickness
         });
     };
