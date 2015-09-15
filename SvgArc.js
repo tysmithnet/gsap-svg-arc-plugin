@@ -1,6 +1,7 @@
 ///<reference path="snapsvg.d.ts"/>
 var SvgArc = (function () {
-    function SvgArc(container, x, y, startAngle, arcDegrees, offset, thickness) {
+    function SvgArc(container, x, y, startAngle, arcDegrees, offset, thickness, elementStyles) {
+        if (elementStyles === void 0) { elementStyles = {}; }
         this.container = container;
         this.x = x;
         this.y = y;
@@ -8,11 +9,15 @@ var SvgArc = (function () {
         this.arcDegrees = arcDegrees;
         this.offset = offset;
         this.thickness = thickness;
+        this.elementStyles = elementStyles;
         this.element = document.createElementNS("http://www.w3.org/2000/svg", 'path');
         this.element.setAttribute("d", this.describeArc());
         this.element.style.fill = "none";
         this.element.style.stroke = "#000";
         this.element.style.strokeWidth = thickness;
+        for (var prop in this.elementStyles) {
+            this.element.style[prop] = this.elementStyles[prop];
+        }
         this.container.appendChild(this.element);
     }
     SvgArc.prototype.polarToCartesian = function (centerX, centerY, radius, angleInDegrees) {
