@@ -7,6 +7,7 @@ class SvgArc {
     constructor(private container:SVGElement, private x:number, private y: number, private startAngle:number, private arcDegrees, private offset: number, private thickness:number) {
         this.element = document.createElementNS("http://www.w3.org/2000/svg", 'path');
         this.element.setAttribute("d", this.describeArc());
+        this.element.style.fill = "none";
         this.element.style.stroke = "#000";
         this.element.style.strokeWidth = thickness;
         this.container.appendChild(this.element);
@@ -37,10 +38,8 @@ class SvgArc {
     }
 
     updatePaths():void {
-        this.arc.attr({
-            d:this.describeArc(),
-            strokeWidth: this.thickness
-        });
+        this.element.setAttribute("d", this.describeArc());
+        this.element.style.strokeWidth = this.thickness;
     }
 
     cloneOptions(): any {

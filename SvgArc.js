@@ -10,6 +10,7 @@ var SvgArc = (function () {
         this.thickness = thickness;
         this.element = document.createElementNS("http://www.w3.org/2000/svg", 'path');
         this.element.setAttribute("d", this.describeArc());
+        this.element.style.fill = "none";
         this.element.style.stroke = "#000";
         this.element.style.strokeWidth = thickness;
         this.container.appendChild(this.element);
@@ -33,10 +34,8 @@ var SvgArc = (function () {
         return d;
     };
     SvgArc.prototype.updatePaths = function () {
-        this.arc.attr({
-            d: this.describeArc(),
-            strokeWidth: this.thickness
-        });
+        this.element.setAttribute("d", this.describeArc());
+        this.element.style.strokeWidth = this.thickness;
     };
     SvgArc.prototype.cloneOptions = function () {
         return {
