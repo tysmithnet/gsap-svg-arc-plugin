@@ -3,6 +3,9 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
     //ignore the line above this and at the very end - those are for ensuring things load in the proper order
     "use strict";
 
+    function isNumeric(val){
+        return !isNaN(parseFloat(val)) && isFinite(val);
+    }
 
     function interpret(realVal, formula){
         var val = formula.match(/\d+\.?\d*/)[0];
@@ -67,7 +70,7 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
             this.elementVals = {};
             for(var prop in values)
                 if(props.indexOf(prop) == -1){
-                    this.elementVals[prop] = window.getComputedStyle(this.element)[prop];
+                    this.elementVals[prop] = window.getComputedStyle(this.target.element)[prop];
                 }
 
             return true;
@@ -77,7 +80,8 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
             this._super.setRatio.call(this, ratio);
             this.target.updatePaths();
             for(var prop in this.elementVals) {
-                this.element.style[prop] = this.elementVals[prop] + (this.toValues[prop] - this.elementVals[prop]) * ratio;
+                var fromVal = isNumeric(this.elementVals[prop]) ? parseFloat(this.elementVals[prop]) : this.elementVals[prop];
+                this.target.element.style[prop] =  fromVal + (this.toValues[prop] - this.elementVals[prop]) * ratio;
             }
         }
     });
