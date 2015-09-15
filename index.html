@@ -19,8 +19,8 @@
 //            var svgarc3 = new SvgArc(document.getElementById('mysvg'), 300, 300, 81, 10, 100, 100);
 //            svgarc3.arc.attr({stroke: "#000"});
 
-            TweenMax.to([svgarc], 1, {svgarc: { arcDegrees: '+45', opacity: 0}}, null);
-            //TweenMax.to(svgarc, 2, {svgarc: {opacity:0}});
+            TweenMax.to(svgarc.element, 1, {opacity: 0});
+
 
         });
     </script>

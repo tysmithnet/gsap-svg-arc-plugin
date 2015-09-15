@@ -63,12 +63,22 @@ var _gsScope = (typeof(module) !== "undefined" && module.exports && typeof(globa
             this._addTween(target, 'thickness', this.fromValues.thickness, this.toValues.thickness, 'thickness', false);
             this._addTween(target, 'offset', this.fromValues.offset, this.toValues.offset, 'offset', false);
 
+            var props = ['x', 'y', 'startAngle', 'arcDegrees', 'thickness', 'offset'];
+            this.elementVals = {};
+            for(var prop in values)
+                if(props.indexOf(prop) == -1){
+                    this.elementVals[prop] = window.getComputedStyle(this.element)[prop];
+                }
+
             return true;
         },
 
         set: function(ratio) {
             this._super.setRatio.call(this, ratio);
             this.target.updatePaths();
+            for(var prop in this.elementVals) {
+                this.element.style[prop] = this.elementVals[prop] + (this.toValues[prop] - this.elementVals[prop]) * ratio;
+            }
         }
     });
 
